@@ -1,0 +1,35 @@
+<meta charset="utf-8">
+<title>End Gateway Tool</title>
+<link rel="stylesheet" href="main.css">
+<div id="app">
+	<gateway-canvas v-bind:selected-gateways="selectedGateways" v-bind:gateways="gateways"></gateway-canvas>
+	<div class="sidebar">
+		<select id="gateways" name="gateway" size="20" multiple v-model="selectedGateways">
+			<option v-for="gateway in gateways" :value="gateway">({{gateway.x}}, {{gateway.y}})</option>
+		</select>
+		<div class="gateway-form">
+			<input type="text" v-model="editingGateway.x" placeholder="x">
+			<input type="text" v-model="editingGateway.y" placeholder="y">
+			<button v-on:click="addGateway()">+</button>
+			<button v-on:click="delGateways()">-</button>
+			<br>
+		</div>
+		<div class="info">
+			<div class="gateway-info" v-for="gateway in selectedGateways">
+				<p>
+					<h1>({{gateway.x}}, {{gateway.y}})</h1>
+					<h2>Ray intersections</h2>
+					<ul>
+						<li>Inner: {{intersect(gateway, radius.inner)}}</li>
+						<li>Centre: {{intersect(gateway, radius.centre)}}</li>
+						<li>Outer: {{intersect(gateway, radius.outer)}}</li>
+					</ul>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--Production: <script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+<script src="main.js"></script>
