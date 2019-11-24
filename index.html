@@ -24,6 +24,18 @@
 						<li>Centre: {{intersect(gateway, radius.centre)}}</li>
 						<li>Outer: {{intersect(gateway, radius.outer)}}</li>
 					</ul>
+					<h2>Chunks to fill</h2>
+					<ul>
+						<li v-for="chunk in chunks(gateway, radius.inner)">
+							({{chunk.x}}, {{chunk.y}})
+						</li>
+					</ul>
+					<h2>Chunks to empty</h2>
+					<ul>
+						<li v-for="chunk in chunks(gateway, radius.outer)">
+							({{chunk.x}}, {{chunk.y}})
+						</li>
+					</ul>
 				</p>
 			</div>
 		</div>

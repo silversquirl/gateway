@@ -17,6 +17,10 @@ function rayCast(x, y, length) {
 	return {x: nx*length, y: ny*length};
 }
 
+function coordEq(a, b) {
+	return a.x == b.x && a.y == b.y;
+}
+
 Vue.component("gateway-canvas", {
 	props: {
 		gateways: Array,
@@ -159,6 +163,31 @@ var app = new Vue({
 		intersect: function(gateway, radius) {
 			var ray = rayCast(gateway.x, gateway.y, radius);
 			return "(" + Math.trunc(ray.x) + ", " + Math.trunc(ray.y) + ")";
+		},
+
+		chunks: function(gateway, radius) {
+			if (radius > this.radius.centre) {
+				var distance = radius - this.radius.centre;
+				var stepLength = 16;
+			} else {
+				var distance = this.radius.centre - radius;
+				var stepLength = -16;
+			}
+
+			var chunks = [];
+			var pos = rayCast(gateway.x, gateway.y, this.radius.centre);
+			var step = rayCast(gateway.x, gateway.y, stepLength);
+			while (distance >= 0) {
+				var chunk = {x: pos.x >> 4, y: pos.y >> 4};
+				if (!chunks.length || !coordEq(chunks[chunks.length-1], chunk)) {
+					chunks.push(chunk);
+				}
+				pos.x += step.x;
+				pos.y += step.y;
+				distance -= Math.abs(stepLength);
+			}
+
+			return chunks;
 		},
 	},
 });
