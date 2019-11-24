@@ -87,18 +87,18 @@ Vue.component("gateway-canvas", {
 			// The scale factor required to make that circle fit
 			var scaleFactor = Math.min(this.$refs.canvas.width, this.$refs.canvas.height) / (2*requiredRadius);
 
-			this.ctx.setTransform({
+			this.ctx.setTransform(
 				// hscale
-				a: scaleFactor,
-				// vscale
-				d: scaleFactor,
-				// htranslate
-				e: this.$refs.canvas.width/2,
-				// vtranslate
-				f: this.$refs.canvas.height/2,
+				scaleFactor,
 				// hskew, vskew
-				b: 0, c: 0,
-			});
+				0, 0,
+				// vscale
+				scaleFactor,
+				// htranslate
+				this.$refs.canvas.width/2,
+				// vtranslate
+				this.$refs.canvas.height/2,
+			);
 
 			this.ctx.clearRect(-requiredRadius, -requiredRadius, requiredRadius, requiredRadius);
 
